@@ -13,8 +13,8 @@ class Modal {
      * необходимо выкинуть ошибку.
      * */
     constructor(element) {
-        if (element === '') {
-            return Error
+        if (!element) {
+            throw new Error("Элемент не существует в Modal");
         };
         this.element = element;
         this.registerEvents()
@@ -27,12 +27,11 @@ class Modal {
      * */
     registerEvents() {
 
-        let add = function() {
-            this.element.onClose()
-        }
-        for (let i = 0; i < this.element.querySelectorAll('[data-dismiss]').length; i++) {
-            this.element.querySelectorAll('[data-dismiss]')[i].addEventListener('click', add)
-        }
+        // this.element.addEventListener("click", function() {
+        //     this.onClose
+        // });
+        console.log(this.element)
+            //.querySelectorAll('.close').addEventListener("click", this.onClose())
     }
 
     /**
@@ -40,28 +39,29 @@ class Modal {
      * Закрывает текущее окно (Modal.close())
      * */
     onClose(e) {
-            this.element.close()
-            e.preventDefault()
+
+            console.log(e)
+                //e.preventDefault();
+            this.close()
+
         }
         /**
          * Удаляет обработчики событий
          * */
     unregisterEvents() {
-            for (let i = 0; i < this.element.querySelectorAll('[data-dismiss]').length; i++) {
-                this.querySelectorAll('[data-dismiss]')[i].removeEventListener('click', add)
-            }
+            this.element.removeEventListener("click", this.onClose);
         }
         /**
          * Открывает окно: устанавливает CSS-свойство display
          * со значением «block»
          * */
     open() {
-            this.element.display = 'block';
+            this.display = 'block';
         }
         /**
          * Закрывает окно: удаляет CSS-свойство display
          * */
     close() {
-        this.element.display = 'none';
+        this.display = 'none';
     }
 }

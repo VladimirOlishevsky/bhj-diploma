@@ -38,7 +38,7 @@ class Sidebar {
         let register = document.querySelector('.menu-item_register');
         let openRegister = App.getModal('register');
 
-        register.addEventListener('click', () => {
+        register.addEventListener('click', function() {
 
             openRegister = new Modal(openRegister)
             openRegister.open()
