@@ -13,50 +13,32 @@ class Modal {
      * необходимо выкинуть ошибку.
      * */
     constructor(element) {
-        
-        this.element = element,
 
-        this.registerEvents();
-
-        if (!element) {
-            throw new Error("Элемент не существует в Modal");
+            this.element = element;
+            this.registerEvents();
+            if (!element) {
+                throw new Error("Элемент не существует в Modal");
+            }
         }
-    }
-
-    /**
-     * При нажатии на элемент с data-dismiss="modal"
-     * должен закрыть текущее окно
-     * (с помощью метода Modal.onClose)
-     * */
+        /**
+         * При нажатии на элемент с data-dismiss="modal"
+         * должен закрыть текущее окно
+         * (с помощью метода Modal.onClose)
+         * */
     registerEvents() {
 
-    this.closebuton = this.element.querySelectorAll('button[data-dismiss="modal"]');
-
-
-    for(let button of this.closebuton) {
-      button.addEventListener('click', (e) => this.onClose(e));
-    }
-
-        // let a = this.element.element
-        // console.log(a)
-
-        // for(let i = 0; i < a.querySelectorAll('[data-dismiss]').length; i++) {
-        //     a.querySelectorAll('[data-dismiss]')[i].onclick = function() {
-        //         return this.onClose()
-        //     }
-        // }            
-    }
-
-    /**
-     * Срабатывает после нажатия на элементы, закрывающие окно.
-     * Закрывает текущее окно (Modal.close())
-     * */
+            this.closeWindow = this.element.querySelectorAll('button[data-dismiss="modal"]');
+            for (let button of this.closeWindow) {
+                button.addEventListener('click', (e) => this.onClose(e));
+            }
+        }
+        /**
+         * Срабатывает после нажатия на элементы, закрывающие окно.
+         * Закрывает текущее окно (Modal.close())
+         * */
     onClose(e) {
-
-        this.element.style.display = 'none',
-        this.unregisterEvents();
-        // this.close(),
-        // e.preventDefault();
+            this.close();
+            this.unregisterEvents();
         }
         /**
          * Удаляет обработчики событий

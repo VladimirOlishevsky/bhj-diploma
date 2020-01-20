@@ -35,21 +35,24 @@ class Sidebar {
      * */
     static initAuthLinks() {
 
+        let login = document.querySelector('.menu-item_login');
         let register = document.querySelector('.menu-item_register');
+        let logOut = document.querySelector('.menu-item_logout');
+        let modalWindow;
 
-        let openRegister = App.getModal('register');
-        let modal;
-  
         register.addEventListener('click', function() {
-
-            modal = App.getModal('register');
-            modal.open()
-
-            // openRegister = new Modal(openRegister);
-
-            // openRegister.open()
-
+            modalWindow = App.getModal('register');
+            modalWindow.open()
+        });
+        login.addEventListener('click', () => {
+            modalWindow = App.getModal('login');
+            modalWindow.open();
+        });
+        logOut.addEventListener('click', () => {
+            User.logout();
+            if (response.success = true) {
+                App.setState('init');
+            }
         })
     }
-
 }
