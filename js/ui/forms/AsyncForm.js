@@ -13,8 +13,8 @@ class AsyncForm {
      * через registerEvents()
      * */
     constructor(element) {
-        if (element === '') {
-            return Error
+        if (!element) {
+            throw new Error("Элемент не существует в Modal");
         };
         this.element = element;
         this.registerEvents()

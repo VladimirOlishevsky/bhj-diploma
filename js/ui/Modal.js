@@ -13,11 +13,14 @@ class Modal {
      * необходимо выкинуть ошибку.
      * */
     constructor(element) {
+        
+        this.element = element,
+
+        this.registerEvents();
+
         if (!element) {
             throw new Error("Элемент не существует в Modal");
-        };
-        this.element = element;
-        this.registerEvents()
+        }
     }
 
     /**
@@ -27,11 +30,21 @@ class Modal {
      * */
     registerEvents() {
 
-        // this.element.addEventListener("click", function() {
-        //     this.onClose
-        // });
-        console.log(this.element)
-            //.querySelectorAll('.close').addEventListener("click", this.onClose())
+    this.closebuton = this.element.querySelectorAll('button[data-dismiss="modal"]');
+
+
+    for(let button of this.closebuton) {
+      button.addEventListener('click', (e) => this.onClose(e));
+    }
+
+        // let a = this.element.element
+        // console.log(a)
+
+        // for(let i = 0; i < a.querySelectorAll('[data-dismiss]').length; i++) {
+        //     a.querySelectorAll('[data-dismiss]')[i].onclick = function() {
+        //         return this.onClose()
+        //     }
+        // }            
     }
 
     /**
@@ -40,28 +53,28 @@ class Modal {
      * */
     onClose(e) {
 
-            console.log(e)
-                //e.preventDefault();
-            this.close()
-
+        this.element.style.display = 'none',
+        this.unregisterEvents();
+        // this.close(),
+        // e.preventDefault();
         }
         /**
          * Удаляет обработчики событий
          * */
     unregisterEvents() {
-            this.element.removeEventListener("click", this.onClose);
+            this.element.removeEventListener("click", (e) => this.onClose(e));
         }
         /**
          * Открывает окно: устанавливает CSS-свойство display
          * со значением «block»
          * */
     open() {
-            this.display = 'block';
+            this.element.style.display = 'block';
         }
         /**
          * Закрывает окно: удаляет CSS-свойство display
          * */
     close() {
-        this.display = 'none';
+        this.element.style.display = 'none';
     }
 }

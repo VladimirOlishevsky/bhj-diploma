@@ -20,7 +20,7 @@ class Sidebar {
      * при нажатии на кнопку .sidebar-toggle
      * */
     static initToggleButton() {
-        openMini.addEventListener('click', () => {
+        openMini.addEventListener('click', function() {
             body.classList.toggle('sidebar-open');
             body.classList.toggle('sidebar-collapse');
         })
@@ -36,12 +36,18 @@ class Sidebar {
     static initAuthLinks() {
 
         let register = document.querySelector('.menu-item_register');
-        let openRegister = App.getModal('register');
 
+        let openRegister = App.getModal('register');
+        let modal;
+  
         register.addEventListener('click', function() {
 
-            openRegister = new Modal(openRegister)
-            openRegister.open()
+            modal = App.getModal('register');
+            modal.open()
+
+            // openRegister = new Modal(openRegister);
+
+            // openRegister.open()
 
         })
     }
