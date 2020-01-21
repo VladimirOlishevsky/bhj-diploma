@@ -5,22 +5,28 @@
  * */
 class Entity {
 
-   // Entity.HOST = 'https://bhj-diplom.letsdocode.ru'
+    // Entity.HOST = 'https://bhj-diplom.letsdocode.ru'
 
     static get HOST() {
         return 'https://bhj-diplom.letsdocode.ru';
     }
-     
+
+
     static get URL() {
-        return ''
-    }
-    /**
-     * Запрашивает с сервера список данных.
-     * Это могут быть счета или доходы/расходы
-     * (в зависимости от того, что наследуется от Entity)
-     * */
+            return ''
+        }
+        /**
+         * Запрашивает с сервера список данных.
+         * Это могут быть счета или доходы/расходы
+         * (в зависимости от того, что наследуется от Entity)
+         * */
     static list(data, callback = f => f) {
-        
+        createRequest({
+            method: 'GET',
+            url: this.HOST + this.URL,
+            data: data,
+            responseType: 'json'
+        })
     }
 
     /**
@@ -48,5 +54,3 @@ class Entity {
 
     }
 }
-
-//console.log(Entity.URL)
