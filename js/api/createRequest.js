@@ -3,7 +3,7 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
 
     if (options.method === 'GET') {
@@ -13,7 +13,7 @@ const createRequest = (options = {}) => {
     }
     if (options.method === 'POST') {
 
-        formData = new FormData;
+        formData = new FormData();
         formData.append('mail', options.data.mail);
         formData.append('password', options.data.password);
 
@@ -27,4 +27,13 @@ const createRequest = (options = {}) => {
             options.callback(xhr.status, xhr.response);
         }
     }
+    try {
+        xhr.open(options.method, options.url);
+        xhr.send(formData);
+    } catch (e) {
+        // перехват сетевой ошибки
+        callback(e);
+    }
+
+    return xhr
 };

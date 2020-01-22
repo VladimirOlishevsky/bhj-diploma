@@ -5,12 +5,9 @@
  * */
 class Entity {
 
-    // Entity.HOST = 'https://bhj-diplom.letsdocode.ru'
-
     static get HOST() {
         return 'https://bhj-diplom.letsdocode.ru';
     }
-
 
     static get URL() {
             return ''
@@ -21,11 +18,12 @@ class Entity {
          * (в зависимости от того, что наследуется от Entity)
          * */
     static list(data, callback = f => f) {
-        createRequest({
+        return createRequest({
             method: 'GET',
             url: this.HOST + this.URL,
             data: data,
-            responseType: 'json'
+            responseType: 'json',
+            callback
         })
     }
 
@@ -35,7 +33,14 @@ class Entity {
      * что наследуется от Entity)
      * */
     static create(data, callback = f => f) {
-
+        let modifiedData = Object.assign({ _method: 'PUT' }, data);
+        return createRequest({
+            method: 'POST',
+            url: this.HOST + this.URL,
+            data: modifiedData,
+            responseType: 'json',
+            callback
+        })
     }
 
     /**
@@ -43,7 +48,14 @@ class Entity {
      * (в зависимости от того, что наследуется от Entity)
      * */
     static get(id = '', data, callback = f => f) {
-
+        data.id = id;
+        return createRequest({
+            method: 'GET',
+            url: this.HOST + this.URL,
+            data: data,
+            responseType: 'json',
+            callback
+        })
     }
 
     /**
@@ -51,6 +63,13 @@ class Entity {
      * (в зависимости от того, что наследуется от Entity)
      * */
     static remove(id = '', data, callback = f => f) {
-
+        let modifiedData = Object.assign({ _method: 'DELETE' }, data, id);
+        return createRequest({
+            method: 'POST',
+            url: this.HOST + this.URL,
+            data: modifiedData,
+            responseType: 'json',
+            callback
+        })
     }
 }
