@@ -5,17 +5,10 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-
-    get URL() {
-        return '/user'
-    }
-    get HOST() {
-            return Entity.HOST
-        }
-        /**
-         * Устанавливает текущего пользователя в
-         * локальном хранилище.
-         * */
+    /**
+     * Устанавливает текущего пользователя в
+     * локальном хранилище.
+     * */
 
     static setCurrent(user) {
         localStorage.user = JSON.stringify(user);
@@ -38,8 +31,6 @@ class User {
     static current() {
         if (localStorage.user) {
             return JSON.parse(localStorage.user);
-        } else {
-            return undefined
         }
 
     }
@@ -60,7 +51,7 @@ class User {
                     this.setCurrent(response.user);
                     console.log(response)
                 } else {
-                    this.unsetCurrent()
+                    this.unsetCurrent
                 }
                 callback(err, response);
             }
@@ -138,3 +129,5 @@ class User {
         })
     }
 }
+User.URL = '/user';
+User.HOST = Entity.HOST

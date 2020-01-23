@@ -26,8 +26,10 @@ class AsyncForm {
      * */
     registerEvents() {
         this.element.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.submit();
+            if (this.element.checkValidity()) {
+                e.preventDefault();
+                this.submit();
+            }
         })
     }
 
@@ -40,9 +42,10 @@ class AsyncForm {
      * */
     getData() {
         let obj = {};
-        for (let i = 0; i < this.element.length; i++) {
-            let key = this.element[i].name
-            let value = this.element[i].value
+        let formData = new FormData(this.element)
+        for (let item of formData.entries()) {
+            const key = item[0],
+                value = item[1];
             obj[key] = value
         }
         return obj
@@ -59,7 +62,7 @@ class AsyncForm {
     submit() {
         this.onSubmit(this.getData({
             url: this.element.action,
-            method: this.element[method],
+            method: this.element.method,
             data: this.getData()
         }))
     }
