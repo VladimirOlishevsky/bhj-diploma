@@ -47,12 +47,13 @@ class User {
             data: data,
             responseType: 'json',
             callback(err, response) {
-                if (response && response.user) {
-                    this.setCurrent(response.user);
+                if (response.user) {
+                    User.setCurrent(response.user);
                     console.log(response)
                 } else {
-                    this.unsetCurrent
-                }
+                    User.unsetCurrent()
+                } 
+                
                 callback(err, response);
             }
         })
@@ -72,7 +73,7 @@ class User {
             responseType: 'json',
             callback(err, response) {
                 if (response && response.user) {
-                    this.setCurrent(response.user);
+                    User.setCurrent(response.user);
                     console.log(response)
                 } else {
                     return err
@@ -93,11 +94,11 @@ class User {
         return createRequest({
             method: 'POST',
             url: User.HOST + User.URL + '/register',
-            data: data,
+            data,
             responseType: 'json',
             callback(err, response) {
                 if (response && response.user) {
-                    this.setCurrent(response.user);
+                    User.setCurrent(response.user);
                     console.log(response)
                 } else {
                     return err
@@ -119,7 +120,7 @@ class User {
             responseType: 'json',
             callback(err, response) {
                 if (response && response.success) {
-                    this.unsetCurrent(response.user);
+                    User.unsetCurrent(response.user);
                     console.log(response)
                 } else {
                     return err

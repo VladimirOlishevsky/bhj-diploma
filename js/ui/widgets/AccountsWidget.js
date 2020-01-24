@@ -13,6 +13,12 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    if (!element) {
+      throw new Error("Элемент не существует в Modal");
+  };
+  this.element = element;
+  this.registerEvents();
+  this.update();
 
   }
 
@@ -24,7 +30,15 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
+    document.querySelector('.create-account').addEventListener('click', () => {
+      App.getModal('createAccount').open()
+    })
 
+    for(let i = 0; i < document.querySelectorAll('.account').length; i++) {
+      document.querySelectorAll('.account')[i].addEventListener('click', () => {
+        this.onSelectAccount();
+      })
+    }
   }
 
   /**
@@ -39,6 +53,14 @@ class AccountsWidget {
    * */
   update() {
 
+    if(User.current()) {
+      Account.list()
+      if(Account.list()) {
+        this.clear();
+        this.renderItem()
+      }
+    }
+
   }
 
   /**
@@ -47,6 +69,10 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
+    let accounts = document.querySelectorAll('.account')
+    for(let i = 0; i < accounts.length; i++) {
+      accounts[i].remove()
+    }
 
   }
 
@@ -58,6 +84,9 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
+    document.querySelector('.active').classlist.remove('active');
+    this.element.classlist.add('active');
+    App.showPage( 'transactions', { account_id: id_счёта });
 
   }
 
@@ -67,7 +96,12 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML( item ) {
-
+    return `<li class="active account" data-id="35">
+              <a href="#">
+                  <span>${item.name}</span> /
+                  <span>${item.sum} ₽</span>
+              </a>
+            </li>`
   }
 
   /**
