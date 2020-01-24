@@ -49,10 +49,12 @@ class Sidebar {
             modalWindow.open();
         });
         logOut.addEventListener('click', () => {
-            User.logout();
-            if (response.success = true) {
-                App.setState('init');
-            }
+            User.logout({}, (err, response) => {
+                if (response.success = true) {
+                    App.setState('init');
+                }
+            });
+
         })
     }
 }
