@@ -4,7 +4,6 @@
  * Имеет свойство URL со значением '/account'
  * */
 class Account extends Entity {
-    get URL() {
-        return '/account'
-    }
+
 }
+Account.URL = '/account';
