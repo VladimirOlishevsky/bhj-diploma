@@ -22,7 +22,7 @@ class TransactionsPage {
      * Вызывает метод render для отрисовки страницы
      * */
     update() {
-
+        this.render()
     }
 
     /**
@@ -39,7 +39,6 @@ class TransactionsPage {
                 this.removeAccount();
             }
             if (event.target.closest('.transaction__remove')) {
-                console.log(event.target)
                 this.removeTransaction(event.target.data.id)
             }
         });
@@ -58,7 +57,7 @@ class TransactionsPage {
             return
         }
         if (!confirm('Вы действительно хотите удалить счет?')) {
-            return;
+            return
         }
         Account.remove(this.lastOptions.account_id, {}, (err, response) => {
             this.clear()
@@ -71,7 +70,14 @@ class TransactionsPage {
      * По удалению транзакции вызовите метод App.update()
      * */
     removeTransaction(id) {
-
+        if (confirm('Вы действительно хотите удалить транзакцию?')) {
+            return
+        }
+        Transaction.remove(id, {}, (err, response) => {
+            if (response) {
+                App.update();
+            }
+        })
     }
 
     /**
@@ -82,7 +88,7 @@ class TransactionsPage {
      * */
     render(options) {
         if (!options) {
-            console.log(err)
+            return
         }
         this.lastOptions = options;
         Account.get(options.account_id, {}, (err, response) => {
@@ -92,6 +98,7 @@ class TransactionsPage {
         });
         Transaction.list(options, (err, response) => {
             if (response.data) {
+                console.log(response.data)
                 this.renderTransactions(response.data)
             }
         })
@@ -103,14 +110,15 @@ class TransactionsPage {
      * Устанавливает заголовок: «Название счёта»
      * */
     clear() {
-
+        this.renderTransactions(data = [])
+        this.lastOptions.reset();
     }
 
     /**
      * Устанавливает заголовок в элемент .content-title
      * */
     renderTitle(name) {
-
+        document.querySelector('.content-title').textContent = name;
     }
 
     /**

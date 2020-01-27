@@ -59,6 +59,7 @@ class AccountsWidget {
                     this.clear()
                     for (let i = 0; i < response.data.length; i++) {
                         this.renderItem(response.data[i]);
+                        console.log(response.data[i])
                     }
                 } else {
                     console.log(err)
