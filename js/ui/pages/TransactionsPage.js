@@ -60,7 +60,9 @@ class TransactionsPage {
             return
         }
         Account.remove(this.lastOptions.account_id, {}, (err, response) => {
-            this.clear()
+            if (response) {
+                App.update();
+            }
         })
     }
 
@@ -70,7 +72,7 @@ class TransactionsPage {
      * По удалению транзакции вызовите метод App.update()
      * */
     removeTransaction(id) {
-        if (confirm('Вы действительно хотите удалить транзакцию?')) {
+        if (!confirm('Вы действительно хотите удалить транзакцию?')) {
             return
         }
         Transaction.remove(id, {}, (err, response) => {
@@ -98,7 +100,7 @@ class TransactionsPage {
         });
         Transaction.list(options, (err, response) => {
             if (response.data) {
-                console.log(response.data)
+                //console.log(response.data)
                 this.renderTransactions(response.data)
             }
         })
@@ -110,7 +112,8 @@ class TransactionsPage {
      * Устанавливает заголовок: «Название счёта»
      * */
     clear() {
-        this.renderTransactions(data = [])
+        this.renderTransactions(data = []);
+        this.renderTitle('Название счёта');
         this.lastOptions.reset();
     }
 
