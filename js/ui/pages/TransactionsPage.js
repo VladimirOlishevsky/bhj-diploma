@@ -35,6 +35,8 @@ class TransactionsPage {
 
         this.element.addEventListener('click', (event) => {
 
+            console.log(event.target)
+
             if (event.target.closest('.remove-account')) {
                 this.removeAccount();
             }
@@ -75,7 +77,7 @@ class TransactionsPage {
         if (!confirm('Вы действительно хотите удалить транзакцию?')) {
             return
         }
-        Transaction.remove(id, {}, (err, response) => {
+        Transaction.remove(this.element.id, {}, (err, response) => {
             if (response) {
                 App.update();
             }
@@ -112,7 +114,7 @@ class TransactionsPage {
      * Устанавливает заголовок: «Название счёта»
      * */
     clear() {
-        this.renderTransactions(data = []);
+        this.renderTransactions([]);
         this.renderTitle('Название счёта');
         this.lastOptions.reset();
     }
@@ -130,6 +132,19 @@ class TransactionsPage {
      * */
     formatDate(date) {
 
+        let getDate = new Date(date);
+        let options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+            timezone: 'UTC',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
+};
+        getDate.toLocaleString('ru', options);
+
     }
 
     /**
@@ -138,6 +153,56 @@ class TransactionsPage {
      * */
     getTransactionHTML(item) {
 
+        for(let i = 0; i < item.length; i++) {
+            
+         if(item[i].type === 'expense') {
+             `<div class="transaction transaction_expense row">
+                            <div class="col-md-7 transaction__details">
+                            <div class="transaction__icon">
+                                <span class="fa fa-money fa-2x"></span>
+                            </div>
+                            <div class="transaction__info">
+                                <h4 class="transaction__title">${item[i].name}</h4>
+                                <div class="transaction__date">${this.formatDate(item[i].date)}</div>
+                            </div>
+                            </div>
+                            <div class="col-md-3">
+                            <div class="transaction__summ">
+                            ${item[i].sum} <span class="currency">₽</span>
+                            </div>
+                            </div>
+                            <div class="col-md-2 transaction__controls">
+                                <button class="btn btn-danger transaction__remove" data-id="${item[i].id}">
+                                    <i class="fa fa-trash"></i>  
+                                </button>
+                            </div>
+                        </div>`
+            }
+            if(item[i].type === 'income') {
+             return   `<div class="transaction transaction_income row">
+                            <div class="col-md-7 transaction__details">
+                            <div class="transaction__icon">
+                                <span class="fa fa-money fa-2x"></span>
+                            </div>
+                            <div class="transaction__info">
+                                <h4 class="transaction__title">${item[i].name}</h4>
+                                <div class="transaction__date">${this.formatDate(item[i].date)}</div>
+                            </div>
+                            </div>
+                            <div class="col-md-3">
+                            <div class="transaction__summ">
+                            ${item[i].sum} <span class="currency">₽</span>
+                            </div>
+                            </div>
+                            <div class="col-md-2 transaction__controls">
+                                <button class="btn btn-danger transaction__remove" data-id="${item.id}">
+                                    <i class="fa fa-trash"></i>  
+                                </button>
+                            </div>
+                        </div>` 
+                        
+            }
+        }
     }
 
     /**
@@ -145,6 +210,13 @@ class TransactionsPage {
      * используя getTransactionHTML
      * */
     renderTransactions(data) {
+
+        //console.log(this.getTransactionHTML(data))
+
+        let content = document.querySelector('.content');
+        content.textContent = '';
+        content.innerHTML += this.getTransactionHTML(data);
+        console.log(data)
 
     }
 }
