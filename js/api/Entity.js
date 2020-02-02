@@ -56,7 +56,7 @@ class Entity {
      * (в зависимости от того, что наследуется от Entity)
      * */
     static remove(id = '', data, callback = f => f) {
-        let modifiedData = Object.assign({ _method: 'DELETE' }, data, id);
+        let modifiedData = Object.assign({ _method: 'DELETE' }, data, { id: id });
         return createRequest({
             method: 'POST',
             url: this.HOST + this.URL,
