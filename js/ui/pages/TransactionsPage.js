@@ -34,12 +34,12 @@ class TransactionsPage {
     registerEvents() {
 
         this.element.addEventListener('click', (event) => {
-
             if (event.target.closest('.remove-account')) {
                 this.removeAccount();
             }
             if (event.target.closest('.transaction__remove')) {
-                this.removeTransaction(this.lastOptions.account_id)
+                console.log(event.target.closest('.transaction__remove'))
+                this.removeTransaction(event.target.closest('.transaction__remove').dataset.id)
             }
         });
     }
@@ -73,6 +73,7 @@ class TransactionsPage {
      * По удалению транзакции вызовите метод App.update()
      * */
     removeTransaction(id) {
+        console.log(id)
 
         if (confirm('Вы действительно хотите удалить транзакцию?')) {
             Transaction.remove(id, {}, (err, response) => {
@@ -132,20 +133,16 @@ class TransactionsPage {
      * в формат «10 марта 2019 г. в 03:20»
      * */
     formatDate(date) {
+        date = new Date(date)
+        let arr = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
-        let getDate = new Date(date);
-        let options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            weekday: 'long',
-            timezone: 'UTC',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        };
-        getDate.toLocaleString('ru', options);
-
+        if (date.getMinutes() < 0) {
+            date.getMinutes() = '0' + date.getMinutes()
+        }
+        if (date.getHours() < 0) {
+            date.getHours() = '0' + date.getHours()
+        }
+        return date.getDate() + ' ' + arr[date.getMonth()] + ' ' + date.getFullYear() + ' года в ' + date.getHours() + ':' + date.getMinutes();
     }
 
     /**
@@ -161,7 +158,7 @@ class TransactionsPage {
                             </div>
                             <div class="transaction__info">
                                 <h4 class="transaction__title">${item.name}</h4>
-                                <div class="transaction__date">${this.formatDate(item.date)}</div>
+                                <div class="transaction__date">${this.formatDate(item.created_at)}</div>
                             </div>
                             </div>
                             <div class="col-md-3">
@@ -189,6 +186,5 @@ class TransactionsPage {
             console.log(data[i])
             content.innerHTML += this.getTransactionHTML(data[i]);
         }
-
     }
 }
